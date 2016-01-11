@@ -1,0 +1,68 @@
+<!-- Template componet for sub page within home page -->
+<div id="sub-panel">
+
+    <form id="sub-submit" name="Create Persona">
+        Player Name: <input type="text" name="PlayerName" value={{ player_name }}>
+        Persona Name: <input type="text" name="PersonaName" value={{ persona_name }}>
+        <input type="submit" value="Add"> 
+    </form>
+
+</div>
+
+
+<script type="text/javascript" id="editor_js">
+
+    /*
+     *  This singleton object controlls the template code above
+     */
+	var subPanel = (function() {
+	
+		
+	    return {
+	        init: init,
+	        render: render
+	    };
+	
+	    
+	    function init() {
+	        $("#sub-submit").submit( function() {
+	            savePlayer();
+	        })
+	    }
+	    
+	    function savePlayer() {
+	        
+	        // Post request for data to the server (python code)
+	        var instr = $("#sub-submit").serialize() + '&cmd=savePlayerData';
+	        $.post( '/sub', instr, refreshPlayerListResponseHandler );
+	    }
+	    
+	    function refreshPlayerListResponseHandler( data ) {
+	        
+	        var obj = $.parseJSON( data );
+	        if (obj.returnCode === 0) {
+	
+	            // screen element update( obj.playerJSON );
+	            render( obj );
+	
+	        } else if (obj.returnCode === 99) {
+	
+	            window.location = '/';
+	            return;
+	
+	        }
+	    }
+	    
+	    function render( data ) {
+	        
+	        $("input[name='PlayerName']").val( data.playerName );
+	        $("input[name='DriverName']").val( data.driverName );
+	    }
+	    
+	})();
+	
+    
+    subPanel.init();
+
+    
+</script>
