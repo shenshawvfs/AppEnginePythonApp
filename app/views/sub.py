@@ -6,11 +6,9 @@ Copyright (C) 2014 Kibble Games Inc. In cooperation with Vancouver Film School A
 import logging
 
 
-from m.models import Player
-from m.models import Persona
+from models.user import User
 
-
-from c.page import PageController
+from views.page_controller import PageController
 
     
 class SubPage( PageController ):

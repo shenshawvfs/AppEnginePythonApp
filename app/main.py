@@ -5,24 +5,17 @@ Copyright (C) 2014 Kibble Games Inc. In cooperation with Vancouver Film School A
 """
 import os
 import sys
-import logging
+import cgi
 import webapp2
 
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
-
-# Must set this env var *before* importing any part of Django.
-os.environ['DJANGO_SETTINGS_MODULE'] = 'settings'
-
-
-def log_exception(*args, **kwds):
-    """Log the current exception.
-    Invoked when a Django request raises an exception"""
-    logging.exception("Exception in request:")
+from google.appengine.api import users
 
 
 # Force sys.path to have our own directory first, so we can import from it.
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
 
 from views.home  import HomePage
 from views.sub   import SubPage
@@ -42,10 +35,9 @@ Requests to the server are manged by the WSGIApplication object, created with a 
 of and the coresponding Python classes that handle requests sent to those URLs 
 
 """
-app = webapp2.WSGIApplication([ ('/', HomePage),
-                                ('/sub', SubPage),
-                                ('/(.*)', Error404Page)
-                              ], debug=True)
-
-    
+app = webapp2.WSGIApplication([ 
+    ('/',     HomePage),
+    ('/sub',  SubPage),
+    ('/(.*)', Error404Page)],
+debug=True)
 

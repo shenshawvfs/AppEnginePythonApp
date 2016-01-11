@@ -30,11 +30,6 @@ skip_files:
     - ^grunt\.js
     - ^node_modules/(.*/)?
 
-builtins:
-    - appstats: off   #/_ah/stats/
-    - deferred: on    
-    - remote_api: on  #/_ah/remote_api/
-    - django_wsgi: on
 
 handlers:
     - url: /images(.*\.(gif|png|jpg))
@@ -44,26 +39,38 @@ handlers:
     - url: /css
       mime_type: text/css
       static_dir: static/css
+#      upload: static/css/(.*\.css)
 
     - url: /js
       mime_type: text/javascript
       static_dir: static/js
+#      upload: static/js/(.*\.js)
       
-#    - url: /admin.*
-#      script: admin.app
-#      login: admin
-  
-    - url: /.*
-      script: main.app            
-    # secure: always          
+    - url: /(.*\.html)
+      mime_type: text/html
+      static_files: static/\1
+      upload: static/(.*\.html)
+             
+    - url: .*
+      script: main.app           
+
            
 libraries:
+    - name:    webapp2
+      version: "2.5.2"  # "2.6" or other actual version here
     - name:    django
       version: latest
-    - name:    webapp2
-      version: latest  # "2.6" or other actual version here
     - name:    pycrypto
-      version: latest # "2.6" or other.      
+      version: latest  # "2.6" or other.      
+
+
+builtins:
+    - appstats: off   #/_ah/stats/
+    - deferred: on    
+    - remote_api: on  #/_ah/remote_api/
+    - django_wsgi: on
+
+
 
 #error_handlers:
   # Only errors with error_code, don't put a default error here

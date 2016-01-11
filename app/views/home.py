@@ -5,18 +5,16 @@ Copyright (C) 2014 Kibble Games Inc. In cooperation with Vancouver Film School A
 """
 import logging
 
+from models.user import User
 
 # this is the parent class of all pages that need to respond to AJAX messages
 from views.page_controller import PageController 
+
 from views.sub import SubPage
-
-
-from models.player import Player
 
 
 """
 Home Page handler
-
 
 """    
 class HomePage( PageController ):
