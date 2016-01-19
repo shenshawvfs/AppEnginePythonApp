@@ -36,9 +36,9 @@ of and the coresponding Python classes that handle requests sent to those URLs
 
 """
 app = webapp2.WSGIApplication([ 
-    ('/',     HomePage),
-    ('/sub',  SubPage),
-    ('/(.*)', Error404Page)],
+    (r'/',     HomePage),
+    (r'/sub',  SubPage),
+    (r'/(.*)', Error404Page)],
 debug=True)
   
   

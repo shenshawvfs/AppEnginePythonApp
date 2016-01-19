@@ -42,12 +42,12 @@ class HomePage( PageController ):
     
     def do_get_player_data(self, params):
         """
-        Command handler for 'getPlayerData' command
+        Command handler for 'get_player_data' command
         
         """
         result = { 'returnCode': 0 }
                 
-        result['playerList'] = self._get_player_list()
+        #result['playerList'] = self._get_player_list()
         self.send_json( result )
         return
     

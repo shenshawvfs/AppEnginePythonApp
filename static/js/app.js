@@ -63,7 +63,8 @@ var app = (function() {
             $.post( '/', {'cmd':'get_player_data'})
                 .then( function( data ) {
             	
-                    var obj = $.parseJSON( data );
+                    // Data is returned as a native object already from GAE
+                    var obj = data;
                     if (obj.returnCode === 0) {
         
                         // screen element update( obj.playerJSON );

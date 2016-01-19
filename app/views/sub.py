@@ -41,32 +41,27 @@ class SubPage( PageController ):
     
 
     
-    def do_savePlayerData(self, cmd):
+    def do_add_user(self, params):
         
         # initialize the result, set the value to indicate an error
         result = { 'returnCode': -1 }
         
         # Get player data from self.request
         try: 
-            pName = self.request.params['PlayerName']
-            dName = self.request.params['PersonaName']
+            pName = params['PlayerName']
+            dName = params['PersonaName']
                         
             # Create and save the persona so it has a key
             # should really check for an existing persona here first
-            newPersona = Persona( name = dName )
-            newPersona.put()
-            
-            # use the player name and persona key to create the player.
-            newPlayer = Player( name = pName )
-            newPlayer.driver = newPersona.key                    
-            newPlayer.put()
+            newUser = User( name = dName )
+            newUser.put()
             
             result['returnCode'] = 0
             
         except ValueError:
             logging.error( 'Attempt to save a Player/Driver failed' )
             
-        self.send_json_response( result )         
+        self.send_json( result )         
         return self
 
     
