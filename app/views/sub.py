@@ -57,6 +57,8 @@ class SubPage( PageController ):
             newUser.put()
             
             result['returnCode'] = 0
+            result['playerName'] = pName
+            result['driverName'] = dName
             
         except ValueError:
             logging.error( 'Attempt to save a Player/Driver failed' )

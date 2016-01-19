@@ -50,28 +50,51 @@ var app = (function() {
             
             // Define the Event handlers for the app
         };   
-	
+
+        
         self.run = function() {
           
             // update something
             // render something
         };
     	
+        
+        local.resultFromData = function( data ) {
+
+            var result = null; 
+            switch (typeof data) {
+                case 'string':
+                    var result = $.parseJSON( data );
+                    break;
+                    
+                case 'object':
+                    var result = data;
+                    break;
+                
+                default:
+                    var result = null; 
+                    break;
+            }
+            return result;
+        };
+        
+        
         local.getPlayerListFromServer = function() {
         	
         	// Post request for data to the server (assuming GAE server)
-            $.post( '/', {'cmd':'get_player_data'})
+            var instr = $.param({'cmd':'get_player_data'});
+            $.post( '/', instr )
                 .then( function( data ) {
-            	
-                    // Data is returned as a native object already from GAE
-                    var obj = data;
-                    if (obj.returnCode === 0) {
+                    
+                    var result = local.resultFromData( data );
+                    if (result.returnCode === 0) {
         
-                        // screen element update( obj.playerJSON );
-                        // render();
+                        // use the data inside result, each member will match the dictionary
+                        // from the server
         
-                    } else if (obj.returnCode === 99) {
+                    } else if (result.returnCode === 99) {
         
+                        // handle error returned by the server
                         window.location = '/';
                         return;        
                     }

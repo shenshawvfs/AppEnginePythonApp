@@ -2,11 +2,14 @@
 <div id="sub-panel">
 
     <form id="sub-submit" name="Create Persona">
-        Player Name: <input type="text" name="PlayerName" value={{ player_name }}>
-        Persona Name: <input type="text" name="PersonaName" value={{ persona_name }}>
-        <input type="button" value="Add"> 
+        Player Name: <input type="text" name="PlayerName" value={{ player_name }} />
+        Persona Name: <input type="text" name="PersonaName" value={{ persona_name }} />
+        <input type="submit" value="Add" />
+        <input type="hidden" name="cmd" value="add_user" />
     </form>
 
+    <div id='status'></div>
+    
 </div>
 
 
@@ -17,14 +20,15 @@
      */
 	var subPanel = (function() {
 	
-	    function SubCtrl() {
+	    function SubPanelController() {
 
 	        var local = {};
 	        var self = this;
 	    
 	        self.init = function() {
 	            
-	            $("#sub-submit").on('click', function() {
+	            $("#sub-submit").on('submit', function( event ) {
+	                event.preventDefault();	                
 	                local.savePlayer();
                 });
             }; 
@@ -33,9 +37,13 @@
             local.savePlayer = function() {
 	        
     	        // Post request for data to the server (python code)
-    	        var instr = $("#sub-submit").serialize()+"&cmd=add_user";
-    	        $.post( '/sub', instr)
-    	            .then( function( result ) {
+    	        $('#status').html("");  // clear the result
+    	        
+    	        var instr = $("#sub-submit").serialize();
+    	        $.post( '/sub', instr )
+    	            .then( function( data ) {
+    	                
+    	                var result = local.resultFromData( data );
     	                
     	                if (result.returnCode === 0) {
     	        
@@ -50,13 +58,36 @@
     	            });
     	    };
 	    
+    	    
+    	    local.resultFromData = function( data ) {
+
+                var result = null; 
+    	        switch (typeof data) {
+    	            case 'string':
+    	                var result = $.parseJSON( data );
+    	                break;
+    	                
+    	            case 'object':
+    	                var result = data;
+    	                break;
+                    
+	                default:
+                        var result = null; 
+	                    break;
+                }
+    	        return result;
+    	    };
+    	    
+    	    
             local.render = function( data ) {
 	        
     	        $("input[name='PlayerName']").val( data.playerName );
     	        $("input[name='DriverName']").val( data.driverName );
+    	        
+    	        $('#status').html("User " + data.playerName + " logged in as " + data.driverName );
 	        };
 	    };
-	    return new SubCtrl();
+	    return new SubPanelController();
 	    
 	})().init();
     
