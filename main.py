@@ -17,9 +17,9 @@ from google.appengine.api import users
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 
-from views.home  import HomePage
-from views.sub   import SubPage
-from views.error import Error404Page
+from app.views.home  import HomePage
+from app.views.sub   import SubPage
+from app.views.error import Error404Page
 
 
 """ =====================================================================
@@ -40,4 +40,22 @@ app = webapp2.WSGIApplication([
     ('/sub',  SubPage),
     ('/(.*)', Error404Page)],
 debug=True)
-
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  

@@ -56,13 +56,11 @@ class PageController( webapp2.RequestHandler ):
         command_handler_name = 'do_' + cmd
         if hasattr(self, command_handler_name):
             command_handler = getattr(self, command_handler_name)
-            command_handler( cmd )
+            command_handler( self.request.params )
         else:
-            self.error(cmd, 11) 
-
-        
+            self.error(cmd, 11)
+             
         return
-
 
     """
     Helper methods to render templates to either strings or directly back to the calling client
@@ -82,25 +80,25 @@ class PageController( webapp2.RequestHandler ):
      
 
     def send_template(self, htmlTemplate, tValues ):
-        
+        """        
         if (self.CORSAccessAllowed):
             self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-            
+        """
         self.response.write( self.render_template( htmlTemplate, tValues ) )
         return
-
+    
 
     def send_json( self, data ):
-        
+        """        
         if (self.CORSAccessAllowed):
             self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-            
+        """
         self.response.headers['Content-Type'] = 'application/json'
         self.response.write( self.render_json( data ) )
         return
     
     
-    def send(self, data, asJSON):
+    def send( self, data, asJSON ):
         if (self.CORSAccessAllowed):
             self.response.headers.add_header("Access-Control-Allow-Origin", "*")
                    
@@ -113,18 +111,16 @@ class PageController( webapp2.RequestHandler ):
             responseData = self.render_json( data )
                     
         self.response.write( responseData )    
-        return 
-
-
+        return
+    
+    """
     def options(self):
         
         if (self.CORSAccessAllowed):
             self.response.headers['Access-Control-Allow-Origin'] = '*'
             self.response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
             self.response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE'
-            
-        return self
-
+    """
 
 
 

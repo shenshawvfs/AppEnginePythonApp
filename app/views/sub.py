@@ -6,9 +6,9 @@ Copyright (C) 2014 Kibble Games Inc. In cooperation with Vancouver Film School A
 import logging
 
 
-from models.user import User
+from app.models.user import User
 
-from views.page_controller import PageController
+from app.views.page_controller import PageController
 
     
 class SubPage( PageController ):
@@ -25,7 +25,8 @@ class SubPage( PageController ):
         else:
             try:
                 # check to see if this persona exists
-                playerPersona = Persona( key = self.currentPlayer.persona ) 
+                #playerPersona = Persona( key = self.currentPlayer.persona )
+                playerPersona = "Player" 
                 
             except ValueError:
                 playerPersona = ""

@@ -1,4 +1,4 @@
-application: appengineapp     # .appspot.com
+application: template     # .appspot.com
 version: 1
 runtime: python27
 api_version: 1
@@ -10,8 +10,8 @@ threadsafe: true
 #default_expiration: "30d"
 
 skip_files:
-    - ^(.*/)?app\.yaml
-    - ^(.*/)?app\.yml
+    - ^(.*/)?.yaml
+    - ^(.*/)?.yml
     - ^(.*/)?#.*#
     - ^(.*/)?.*~
     - ^(.*/)?.*\.py[co]
@@ -59,7 +59,7 @@ libraries:
     - name:    webapp2
       version: "2.5.2"  # "2.6" or other actual version here
     - name:    django
-      version: latest
+      version: "1.5"
     - name:    pycrypto
       version: latest  # "2.6" or other.      
 

@@ -21,7 +21,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-var App = (function() {
+var app = (function() {
 
     function AppConstructor( opt1 ) {
         

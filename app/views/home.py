@@ -5,12 +5,12 @@ Copyright (C) 2014 Kibble Games Inc. In cooperation with Vancouver Film School A
 """
 import logging
 
-from models.user import User
+from app.models.user import User
 
 # this is the parent class of all pages that need to respond to AJAX messages
-from views.page_controller import PageController 
+from app.views.page_controller import PageController 
 
-from views.sub import SubPage
+from app.views.sub import SubPage
 
 
 """
@@ -19,10 +19,7 @@ Home Page handler
 """    
 class HomePage( PageController ):
         
-    MAX_PLAYERS = 100
-        
-    def get( self ):
-        
+    def get(self):       
         panel = SubPage()
         markup = panel.get_markup()
         
@@ -32,19 +29,18 @@ class HomePage( PageController ):
         }
 
         logging.debug( "rendering main page" )
-        self.send_template( '../templates/index.html', tValues )
+        self.send_template( '../templates/index.html', tValues )        
         return
-
+    
            
     def error(self, cmd, return_code):
         """ invalid command handler """ 
         logging.warning('MainPage.post() unrecognized command['+cmd+']')
         self.send_json( {'returnCode': return_code} )
         return
-
-
     
-    def do_get_player_data(self, cmd):
+    
+    def do_get_player_data(self, params):
         """
         Command handler for 'getPlayerData' command
         
@@ -54,16 +50,15 @@ class HomePage( PageController ):
         result['playerList'] = self._get_player_list()
         self.send_json( result )
         return
-
     
-    def _get_player_list(self):
+    
+    def _get_player_list( self ):
         """
         Returns player list from datastore
         
         """
         # get players
-        query = Player.query()        
-        player_list = None # query.fetch( self.MAX_PLAYERS )
-                
+        query = User.query()        
+        player_list = None # query.fetch( self.MAX_PLAYERS )                
         return player_list
         

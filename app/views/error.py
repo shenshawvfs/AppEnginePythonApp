@@ -13,7 +13,7 @@ import json
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 
-from views.page_controller import PageController
+from app.views.page_controller import PageController
         
 """ 
 Error Page to display if a specific page that doesn't exist is displayed
