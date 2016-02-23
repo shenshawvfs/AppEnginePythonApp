@@ -36,7 +36,7 @@ class SubPage( PageController ):
                 'persona_name': playerPersona.name
             }
             
-        markup = self.render_template( '../templates/sub.html', tValues )
+        markup = self.render_template( '../templates/partials/sub.html', tValues )
         return markup
     
 

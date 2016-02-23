@@ -17,7 +17,7 @@ from app.views.sub import SubPage
 Home Page handler
 
 """    
-class HomePage( PageController ):
+class IndexPage( PageController ):
         
     def get(self):       
         panel = SubPage()
@@ -33,13 +33,6 @@ class HomePage( PageController ):
         return
     
            
-    def error(self, cmd, return_code):
-        """ invalid command handler """ 
-        logging.warning('MainPage.post() unrecognized command['+cmd+']')
-        self.send_json( {'returnCode': return_code} )
-        return
-    
-    
     def do_get_player_data(self, params):
         """
         Command handler for 'get_player_data' command
