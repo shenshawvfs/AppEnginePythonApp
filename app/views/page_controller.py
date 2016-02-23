@@ -28,11 +28,11 @@ class PageController( webapp2.RequestHandler ):
     @function post
     
     This is the core of responding to AJAX requests.
-    The request is expecting a 'cmd' parameter identifying a command to process (other parameters are considered 
+    The request is expecting a 'action' parameter identifying a command to process (other parameters are considered 
     application specific
     
-    If the command is valid (i.e the child class had a defined function 'do_<cmd>' then a function pointer
-    is generated pointing to the 'do_<cmd>' and its executed.
+    If the command is valid (i.e the child class had a defined function 'do_<action>' then a function pointer
+    is generated pointing to the 'do_<action>' and its executed.
     
     The executed command can call either 
     
@@ -43,13 +43,13 @@ class PageController( webapp2.RequestHandler ):
 
         """        
         # Look for the command argument
-        if self.request.params['cmd'] == '':
+        if self.request.params['action'] == '':
             # missing argument(s)
             logging.warning('PageController.post() missing command argument.')
             self.send_json_response( {'returnCode': 10} )
             return
         
-        cmd = self.request.params['cmd']
+        cmd = self.request.params['action']
         logging.debug('PageController: command['+cmd+'] called.')
         
         # process the command
@@ -66,7 +66,7 @@ class PageController( webapp2.RequestHandler ):
     Helper methods to render templates to either strings or directly back to the calling client
      
     """
-    def render_template(self, htmlTemplate, tValues):
+    def render_template(self, htmlTemplate, tValues=[]):
         
         path = os.path.join( os.path.dirname(__file__), htmlTemplate )
         markup = template.render( path, tValues )
@@ -79,7 +79,7 @@ class PageController( webapp2.RequestHandler ):
         return jsonMarkup
      
 
-    def send_template(self, htmlTemplate, tValues ):
+    def send_template(self, htmlTemplate, tValues=[] ):
         """        
         if (self.CORSAccessAllowed):
             self.response.headers.add_header("Access-Control-Allow-Origin", "*")
@@ -113,6 +113,16 @@ class PageController( webapp2.RequestHandler ):
         self.response.write( responseData )    
         return
     
+    
+    def error(self, cmd, return_code):
+        """ 
+        invalid command handler 
+        
+        """ 
+        logging.warning('post() recieved unrecognized command['+cmd+']')
+        self.send_json( {'returnCode': return_code} )
+        return
+
     """
     def options(self):
         
