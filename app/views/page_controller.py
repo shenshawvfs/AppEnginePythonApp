@@ -43,13 +43,13 @@ class PageController( webapp2.RequestHandler ):
 
         """        
         # Look for the command argument
-        if self.request.params['action'] == '':
+        if self.request.params['cmd'] == '':
             # missing argument(s)
             logging.warning('PageController.post() missing command argument.')
             self.send_json_response( {'returnCode': 10} )
             return
         
-        cmd = self.request.params['action']
+        cmd = self.request.params['cmd']
         logging.debug('PageController: command['+cmd+'] called.')
         
         # process the command
