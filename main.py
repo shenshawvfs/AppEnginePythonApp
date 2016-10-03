@@ -17,9 +17,8 @@ from google.appengine.api import users
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 
-from app.views.home  import HomePage
+from app.views.index  import IndexPage
 from app.views.admin import AdminPage
-from app.views.sub   import SubPage
 from app.views.error import Error404Page
 
 
@@ -37,10 +36,9 @@ of and the coresponding Python classes that handle requests sent to those URLs
 
 """
 app = webapp2.WSGIApplication([ 
-    (r'/',     HomePage),
+    (r'/',      IndexPage),
     (r'/admin', AdminPage),
-    (r'/sub',  SubPage),
-    (r'/(.*)', Error404Page)],
+    (r'/(.*)',  Error404Page)],
 debug=True)
   
   

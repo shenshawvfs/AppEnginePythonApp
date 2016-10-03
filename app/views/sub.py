@@ -23,17 +23,18 @@ class SubPage( PageController ):
                 'persona_name': "Speed Racer"  
             }
         else:
-            try:
-                # check to see if this persona exists
+            # check to see if this persona exists, limit the try except block to just
+            # accessing the 
+            #try:
                 #playerPersona = Persona( key = self.currentPlayer.persona )
-                playerPersona = "Player" 
+            #except ValueError:
+            #    playerPersona = ""
+            playerPersona = "Player" 
                 
-            except ValueError:
-                playerPersona = ""
                 
             tValues = {
                 'player_name': self.currentPlayer.name,
-                'persona_name': playerPersona.name
+                'persona_name': playerPersona
             }
             
         markup = self.render_template( '../templates/sub.html', tValues )
@@ -41,29 +42,6 @@ class SubPage( PageController ):
     
 
     
-    def do_add_user(self, params):
-        
-        # initialize the result, set the value to indicate an error
-        result = { 'returnCode': -1 }
-        
-        # Get player data from self.request
-        try: 
-            pName = params['PlayerName']
-            dName = params['PersonaName']
-                        
-            # Create and save the persona so it has a key
-            # should really check for an existing persona here first
-            newUser = User( name = dName )
-            newUser.put()
-            
-            result['returnCode'] = 0
-            result['playerName'] = pName
-            result['driverName'] = dName
-            
-        except ValueError:
-            logging.error( 'Attempt to save a Player/Driver failed' )
-            
-        self.send_json( result )         
-        return self
+    
 
     

@@ -13,6 +13,8 @@ import json
 from google.appengine.ext.webapp import util
 from google.appengine.ext.webapp import template
 
+from app.views.post_handler import PostHandler
+
 
 """
 PageController manages JSON translation and message dispatch command handling
@@ -20,7 +22,9 @@ PageController manages JSON translation and message dispatch command handling
 All pages with require AJAX handling should subclass this Class
 
 """
-class PageController( webapp2.RequestHandler ):
+
+
+class PageController( PostHandler ):
     
     CORSAccessAllowed = False
 
@@ -50,6 +54,10 @@ class PageController( webapp2.RequestHandler ):
             return
         
         cmd = self.request.params['cmd']
+        
+        # could use this if you want to stick with the classic 'action' as a         
+        #cmd = self.request.params['action'] 
+        
         logging.debug('PageController: command['+cmd+'] called.')
         
         # process the command
@@ -62,66 +70,7 @@ class PageController( webapp2.RequestHandler ):
              
         return
 
-    """
-    Helper methods to render templates to either strings or directly back to the calling client
-     
-    """
-    def render_template(self, htmlTemplate, tValues):
-        
-        path = os.path.join( os.path.dirname(__file__), htmlTemplate )
-        markup = template.render( path, tValues )
-        return markup
-
-        
-    def render_json(self, data):
-        
-        jsonMarkup = json.dumps( data )
-        return jsonMarkup
-     
-
-    def send_template(self, htmlTemplate, tValues ):
-        """        
-        if (self.CORSAccessAllowed):
-            self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-        """
-        self.response.write( self.render_template( htmlTemplate, tValues ) )
-        return
     
-
-    def send_json( self, data ):
-        """        
-        if (self.CORSAccessAllowed):
-            self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-        """
-        self.response.headers['Content-Type'] = 'application/json'
-        self.response.write( self.render_json( data ) )
-        return
-    
-    
-    def send( self, data, asJSON ):
-        if (self.CORSAccessAllowed):
-            self.response.headers.add_header("Access-Control-Allow-Origin", "*")
-                   
-        # assumes  data is a rendered template                   
-        responseData = data 
-        
-        # if its a dictionary, reformat as JSON data
-        if (asJSON == True):
-            self.response.headers['Content-Type'] = 'application/json'
-            responseData = self.render_json( data )
-                    
-        self.response.write( responseData )    
-        return
-    
-    """
-    def options(self):
-        
-        if (self.CORSAccessAllowed):
-            self.response.headers['Access-Control-Allow-Origin'] = '*'
-            self.response.headers['Access-Control-Allow-Headers'] = 'Origin, X-Requested-With, Content-Type, Accept'
-            self.response.headers['Access-Control-Allow-Methods'] = 'POST, GET, PUT, DELETE'
-    """
-
 
 
 
