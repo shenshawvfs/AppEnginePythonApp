@@ -74,7 +74,7 @@ class IndexPage( PageController ):
         self.send_json( result )
         return
     
-    
+
     def do_get_player_data(self, params):
         """
         Command handler for 'get_player_data' command

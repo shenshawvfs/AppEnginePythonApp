@@ -32,11 +32,11 @@ class PageController( PostHandler ):
     @function post
     
     This is the core of responding to AJAX requests.
-    The request is expecting a 'cmd' parameter identifying a command to process (other parameters are considered 
+    The request is expecting a 'action' parameter identifying a command to process (other parameters are considered 
     application specific
     
-    If the command is valid (i.e the child class had a defined function 'do_<cmd>' then a function pointer
-    is generated pointing to the 'do_<cmd>' and its executed.
+    If the command is valid (i.e the child class had a defined function 'do_<action>' then a function pointer
+    is generated pointing to the 'do_<action>' and its executed.
     
     The executed command can call either 
     
@@ -70,7 +70,6 @@ class PageController( PostHandler ):
              
         return
 
-    
 
 
 
