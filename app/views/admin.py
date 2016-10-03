@@ -18,6 +18,6 @@ Admin Page handler
 class AdminPage( PageController ):
     
     def get(self):
-        self.send_template( '../templates/index.html' )
+        self.send_template( '../templates/admin.html' )
         return
     

@@ -1,21 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>VFS AppEngine Template</title>
-
-        <!-- Kill the request for a favicon.ico at the moment -->
-        <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-        
-        <!-- Now load our style sheet -->
-        <link rel="stylesheet" href="css/style.css">
-
-        <!-- This is the key CDN to pull jQuery from -->
-        <!-- To operate offline we may want these to load from a local source -->
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-        <!-- Load local classes here - Optimize later to concatenate and minify -->
-        <!--  <script src="js/lib/vfs-lib.js"></script> -->
-
+        {% include 'partials/head.html' %}
     </head>
     <body>
         <h2>VFS AppEngine Template</h2>
