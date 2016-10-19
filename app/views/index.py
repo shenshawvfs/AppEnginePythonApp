@@ -31,7 +31,7 @@ class IndexPage( PageController ):
         }
 
         logging.debug( "rendering main page" )
-        self.send_template( '../templates/index.html', tValues )        
+        self.send_html( '../templates/index.html', tValues )        
         return
     
            

@@ -26,8 +26,8 @@ class User( ndb.Model ):
     jid = ndb.StringProperty()
     
     @classmethod
-    def query_user(cls, ancestor_key):
-        return cls.query(jid=ancestor_key)
+    def query_user( cls, k_ancestor ):
+        return cls.query( jid = k_ancestor )
 
     
     def authenticate(self):

@@ -29,12 +29,13 @@ class PostHandler( webapp2.RequestHandler ):
     
     def get(self):
         """
-        OVERRIDE me in a sub (sub) class to do actual work.
+        OVERRIDE me in a subclass to do actual work.
         
         """
         logging.warning('rendering error page')
-        self.send_template( '../templates/404.html' )        
+        self.send_html( '../templates/404.html' )        
         return
+    
     
     def post(self):
         """
@@ -69,7 +70,7 @@ class PostHandler( webapp2.RequestHandler ):
     Helper methods to render templates to either strings or directly back to the calling client
      
     """
-    def render_template(self, htmlTemplate, tValues = []):
+    def render_html(self, htmlTemplate, tValues = []):
         """
         Use the html template provided, substitute template values and then return the 
         string generated.
@@ -89,7 +90,7 @@ class PostHandler( webapp2.RequestHandler ):
         return jsonMarkup
      
 
-    def send_template(self, htmlTemplate, tValues = [] ):
+    def send_html(self, htmlTemplate, tValues = [] ):
         """        
         Create a HTML string using the provided tempalte and template values, then
         immediately send the string to stdout (responding to the client browser).
@@ -100,7 +101,7 @@ class PostHandler( webapp2.RequestHandler ):
         if (self.CORSAccessAllowed):
             self.response.headers.add_header("Access-Control-Allow-Origin", "*")
         """
-        self.response.write( self.render_template( htmlTemplate, tValues ) )
+        self.response.write( self.render_html( htmlTemplate, tValues ) )
         return
     
 

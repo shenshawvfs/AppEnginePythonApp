@@ -8,17 +8,28 @@ from google.appengine.ext import ndb
 
 
 class GameCategories( ndb.Model ):
-    id = ndb.IntegerProperty( required = True )
-    game_id = ndb.IntegerProperty()  # maps a collection of 
+    n_id = ndb.IntegerProperty( required = True )
+    k_gameKey = ndb.KeyProperty()  # maps a collection of 
 
 
 class Game( ndb.Model ):
-    id = ndb.IntegerProperty( required = True )
-    title = ndb.StringProperty()
+    """
+    @usage aGame = Game( n_id = 1, s_title = 'A Great Game' )
+    
+    #Save and get a URL safe key to return to a client
+    k_gameKey = aGame.put()
+    s_gameKeyHash = k_gameKey.urlsafe()
+    
+    
+    # given a URL safe key string, retrieve the original object
+    k_gameKey = Key( urlsafe = s_gameKeyHash )
+    theGame = k_gameKey.get()
+    
+    """ 
+    n_id = ndb.IntegerProperty( required = True )
+    s_title = ndb.StringProperty()
 
     categories = []
 
     def populate(self):
-        qry = GameCategories.query().filter( self.id )
-        for cat in qry.fetch():
-            self.category[self.category.length] = cat
+        self.categories = GameCategories.query().filter( self.n_id ).fetch()

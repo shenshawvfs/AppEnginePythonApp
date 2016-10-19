@@ -17,13 +17,8 @@ from google.appengine.api import users
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 
-<<<<<<< HEAD
 from app.views.index  import IndexPage
 from app.views.admin import AdminPage
-=======
-from app.views.index import IndexPage
-from app.views.sub   import SubPage
->>>>>>> 367b80208c59a920399f2d2513ef85a5bdc1be52
 from app.views.error import Error404Page
 
 

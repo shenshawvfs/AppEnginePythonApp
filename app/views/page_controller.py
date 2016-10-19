@@ -47,16 +47,18 @@ class PageController( PostHandler ):
 
         """        
         # Look for the command argument
-        if self.request.params['cmd'] == '':
+        if self.request.params.get('cmd') != '':
+            cmd = self.request.params['cmd']
+            
+        # could use this if you want to stick with the classic 'action' as a         
+        elif self.request.params.get('action') != '':
+            cmd = self.request.params.get('action')
+            
+        else:
             # missing argument(s)
             logging.warning('PageController.post() missing command argument.')
             self.send_json_response( {'returnCode': 10} )
-            return
-        
-        cmd = self.request.params['cmd']
-        
-        # could use this if you want to stick with the classic 'action' as a         
-        #cmd = self.request.params['action'] 
+            return        
         
         logging.debug('PageController: command['+cmd+'] called.')
         
