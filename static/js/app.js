@@ -21,96 +21,94 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-var app = (function() {
+'use strict';
 
-    function AppClass( opt1 ) {
+if (__private__ === undefined)
+    var __private__ = new WeakMap();
+
+
+class App {
+
+    constructor( opt1 ) {
         
         // the local object contains all the private members used in this class             
-        var __private__ = {
+        let m = {
             done: false
         };
-        var m = __private__;
+        __private__.set( this, m );
         
-        // this aka self contains all the public members and methods we wish to expose
-        var self = this;
-        
-        
-        self.init = function( option ) {        
-            // Do some initialization of the member variables for the app
-            if (option !== undefined) {
-                
-                // Use it.
-            }
+        // Do some initialization of the member variables for the app
+        if (opt1 !== undefined) {
+            
+            // Use it.
+        }
 
-            // Do some initialization of the member variables for the app
-            getPlayerListFromServer();
+        // Do some initialization of the member variables for the app
+        this._getPlayerListFromServer();
             
-            
-            // Create controllers to manage model objects and link them to DOM
-            // view elements
-            
-            // Define the Event handlers for the app
-        };   
+        
+        // Create controllers to manage model objects and link them to DOM
+        // view elements
+        
+        // Define the Event handlers for the app
+        
+        // and go...
+        this.run();
+    }   
 
         
-        self.run = function() {
-          
-            // update something
-            // render something
-        };
+    run() {
+      
+        // update something
+        // render something
+    }
     	
-        /** @memberOf AppClass::private */
-        function resultFromData( data ) {
+    
+    _resultFromData( data ) {
 
-            var result = null; 
-            switch (typeof data) {
-                case 'string':
-                    var result = $.parseJSON( data );
-                    break;
-                    
-                case 'object':
-                    var result = data;
-                    break;
+        let result = null; 
+        switch (typeof data) {
+            case 'string':
+                result = $.parseJSON( data );
+                break;
                 
-                default:
-                    var result = null; 
-                    break;
-            }
-            return result;
-        };
+            case 'object':
+                result = data;
+                break;
+            
+            default:
+                result = null; 
+                break;
+        }
+        return result;
+    }
         
-        /** @memberOf AppClass::private */        
-        function getPlayerListFromServer() {
+
+    _getPlayerListFromServer() {
         	
-        	// Post request for data to the server (assuming GAE server)
-            var instr = $.param({'cmd':'get_player_data'});
-            $.post( '/', instr )
-                .then( function( data ) {
-                    
-                    var result = resultFromData( data );
-                    if (result.returnCode === 0) {
-        
-                        // use the data inside result, each member will match the dictionary
-                        // from the server
-        
-                    } else if (result.returnCode === 99) {
-        
-                        // handle error returned by the server
-                        window.location = '/';
-                        return;        
-                    }
-                });
-        };
-    };
-	// Define the set of private methods that you want to make public and return them
-	return new AppClass();
-	
-})();  // Run the unnamed function and assign the results to app for use.
-        
-        
+    	// Post request for data to the server (assuming GAE server)
+        let instr = $.param({'cmd':'get_player_data'});
+        $.post( '/', instr )
+            .then( ( data ) => {
+                
+                let result = this._resultFromData( data );
+                if (result.returnCode === 0) {
+    
+                    // use the data inside result, each member will match the dictionary
+                    // from the server
+    
+                } else if (result.returnCode === 99) {
+    
+                    // handle error returned by the server
+                    window.location = '/';
+                    return;        
+                }
+            });
+    }
+}
+
 $(document).ready( function() {
 
-    app.init();            
-    app.run();
+    let app = new App();            
 
 });
