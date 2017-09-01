@@ -60,16 +60,16 @@ class IndexPage( PageController ):
             
         try:
             # try blocks should be limited just to calls that may fail 
-            newUser.put()
+            userKey = newUser.put()
             
         except ValueError:
             logging.error( 'Attempt to save a Player/Driver failed' )
             self.send_json( result )    
             
-            
-        result['returnCode'] = 0
+        result['keySafe'] = userKey.urlsafe();    
         result['playerName'] = pName
         result['driverName'] = dName
+        result['returnCode'] = 0
             
         self.send_json( result )
         return
@@ -82,12 +82,12 @@ class IndexPage( PageController ):
         """
         result = { 'returnCode': 0 }
                 
-        #result['playerList'] = self._get_player_list()
+        #result['playerList'] = self.get_player_list()
         self.send_json( result )
         return
     
     
-    def _get_player_list( self ):
+    def get_player_list( self ):
         """
         Returns player list from datastore
         

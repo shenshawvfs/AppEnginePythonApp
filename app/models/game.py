@@ -1,6 +1,6 @@
 """
 VFS Demo App
-Copyright (C) 2014 Kibble Games Inc. In cooperation with Vancouver Film School All Rights Reserved. 
+Copyright (C) 2014-2016 Kibble Games Inc. In cooperation with Vancouver Film School All Rights Reserved. 
 
 """
 
@@ -19,8 +19,7 @@ class Game( ndb.Model ):
     #Save and get a URL safe key to return to a client
     k_gameKey = aGame.put()
     s_gameKeyHash = k_gameKey.urlsafe()
-    
-    
+        
     # given a URL safe key string, retrieve the original object
     k_gameKey = Key( urlsafe = s_gameKeyHash )
     theGame = k_gameKey.get()
