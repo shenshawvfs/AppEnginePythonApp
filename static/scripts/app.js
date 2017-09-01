@@ -22,49 +22,21 @@
  * 
  */
 'use strict';
-
-if (__private__ === undefined)
-    var __private__ = new WeakMap();
-
-
-class App {
-
-    constructor( opt1 ) {
-        
-        // the local object contains all the private members used in this class             
-        let m = {
-            done: false
-        };
-        __private__.set( this, m );
-        
-        // Do some initialization of the member variables for the app
-        if (opt1 !== undefined) {
-            
-            // Use it.
-        }
-
-        // Do some initialization of the member variables for the app
-        this._getPlayerListFromServer();
-            
-        
-        // Create controllers to manage model objects and link them to DOM
-        // view elements
-        
-        // Define the Event handlers for the app
-        
-        // and go...
-        this.run();
-    }   
-
-        
-    run() {
-      
-        // update something
-        // render something
-    }
-    	
+(function() {
     
-    _resultFromData( data ) {
+class NameSpace {
+    constructor() {
+        this.data = new WeakMap();
+    }
+
+    members( key, value = undefined ) {
+        if (value != undefined) {
+            this.data.set( key, value );
+        }
+        return this.data.get( key );
+    }
+
+    static resultFromData( data ) {
 
         let result = null; 
         switch (typeof data) {
@@ -82,20 +54,56 @@ class App {
         }
         return result;
     }
-        
+}
 
-    _getPlayerListFromServer() {
-        	
+if (app === undefined) {
+    var app = {
+       'private': new NameSpace(),
+       resultFromData: NameSpace.resultFromData
+    }
+}
+
+
+class App {
+
+    constructor() {
+        
+        // the local object contains all the private members used in this class             
+        let m = app.private.members( this, {
+            playerList: [],
+            done:       false
+        });
+        
+        // Do some initialization of the member variables for the app
+        this.populatePlayerList();            
+        
+        // Create controllers to manage model objects and link them to DOM
+        // view elements
+        
+        // Define the Event handlers for the app
+        
+    }   
+        
+    run() {
+      
+        // update something
+        // render something
+    }
+    
+    populatePlayerList() {
+        let m = app.private.members( this );
+        
     	// Post request for data to the server (assuming GAE server)
         let instr = $.param({'cmd':'get_player_data'});
         $.post( '/', instr )
             .then( ( data ) => {
                 
-                let result = this._resultFromData( data );
+                let result = app.resultFromData( data );
                 if (result.returnCode === 0) {
     
                     // use the data inside result, each member will match the dictionary
                     // from the server
+                    m.playerList = result.players;
     
                 } else if (result.returnCode === 99) {
     
@@ -105,10 +113,31 @@ class App {
                 }
             });
     }
+    
+    resultFromData( data ) {
+
+        let result = null; 
+        switch (typeof data) {
+            case 'string':
+                result = $.parseJSON( data );
+                break;
+                
+            case 'object':
+                result = data;
+                break;
+            
+            default:
+                result = null; 
+                break;
+        }
+        return result;
+    }
 }
 
 $(document).ready( function() {
 
     let app = new App();            
-
 });
+
+
+})();

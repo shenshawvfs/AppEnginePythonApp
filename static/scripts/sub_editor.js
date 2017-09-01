@@ -3,30 +3,17 @@
  */
 'use strict';
 
-if (__private__ === undefined)
-    var __private__ = new WeakMap();
-
-
 class SubPanel {
 
     constructor() {
 
-        if (theSubPanelInstance != null)
-            return theSubPanelInstance;
-        
-        let m = {};
-        __private__.set( this, m );
-            
         $("#sub-submit").on('submit', ( event ) => {
             event.preventDefault();                 
-            this._savePlayer();
+            this.savePlayer();
         });
-        
-        theSubPanelInstance = this;
     }
     
-
-    _savePlayer() {
+    savePlayer() {
         
         // Post request for data to the server (python code)
         $('#status').html("");  // clear the result
@@ -39,7 +26,7 @@ class SubPanel {
                 // from PHP as a JSOn format string.
                 // This makes sure that whatever we get it gets 
                 // back to us eventually as an object.
-                let result = this._resultFromData( data );
+                let result = this.resultFromData( data );
                 
                 if (result.returnCode === 0) {
         
@@ -54,8 +41,7 @@ class SubPanel {
             });
     }
     
-        
-    _resultFromData( data ) {
+    resultFromData( data ) {
 
         let result = null; 
         switch (typeof data) {

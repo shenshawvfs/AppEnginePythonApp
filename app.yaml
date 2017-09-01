@@ -41,9 +41,9 @@ handlers:
       static_dir: static/css
 #      upload: static/css/(.*\.css)
 
-    - url: /js
+    - url: /scripts
       mime_type: text/javascript
-      static_dir: static/js
+      static_dir: static/scripts
 #      upload: static/js/(.*\.js)
       
     - url: /(.*\.html)
